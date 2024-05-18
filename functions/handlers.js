@@ -50,7 +50,7 @@ export async function getfreeCookies(context) {
   const { request } = context;
 
    // 获取请求的主机名
-  const hosturl = new URL(request.url);
+  //const hosturl = new URL(request.url);
  // const BING_PROXY = `https://${hosturl.hostname}`;
  // const BING_PROXY = ` https://zb.b1ng.chat';
   // 以下是您原始 Workers 脚本中的逻辑
@@ -67,8 +67,8 @@ export async function getfreeCookies(context) {
   } else {
     newcctHeaders.set('user-agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35');
   }
- // const challtargetUrl = new URL(BING_PROXY + '/turing/captcha/challenge?q=&iframeid=local-gen-' + uuid);
-  const challtargetUrl = new URL(BING_PROXY + '/turing/captcha/challenge?h=jok&q=&iframeid=local-gen-' + uuid);
+  const challtargetUrl = new URL(BING_PROXY + '/turing/captcha/challenge?q=&iframeid=local-gen-' + uuid);
+//  const challtargetUrl = new URL(BING_PROXY + '/turing/captcha/challenge?h=jok&q=&iframeid=local-gen-' + uuid);
   const newcctReq = new Request(challtargetUrl, {
     method: 'GET',
     headers: newcctHeaders,
