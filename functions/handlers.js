@@ -51,7 +51,8 @@ export async function getfreeCookies(context) {
 
    // 获取请求的主机名
   const hosturl = new URL(request.url);
-  const BING_PROXY = `https://${hosturl.hostname}`;
+ // const BING_PROXY = `https://${hosturl.hostname}`;
+  const BING_PROXY = ` https://zb.b1ng.chat';
   // 以下是您原始 Workers 脚本中的逻辑
   //const BING_PROXY = 'https://sokwith-proxybing.hf.space';
   const uuid = generateUUID();
