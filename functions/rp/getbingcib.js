@@ -6,9 +6,9 @@ export async function onRequest(context) {
  // const fullname = `${username}_${dirName}`;
 
   const cibname = await fetchAndExtractVariableString();
-  console.log('CIB Name:', cibname);
+  //console.log('CIB Name:', cibname);
   
-  return new Response(JSON.stringify(cibname), { status: 200 }); 
+  return new Response(cibname, { status: 200 }); 
 }
 
 
