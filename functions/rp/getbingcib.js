@@ -30,7 +30,7 @@ async function fetchAndExtractVariableString(url = 'https://www.bing.com/chat?q=
     }
   } catch (error) {
     console.error('Fetching failed:', error);
-    return "-Kc8IFliASxPpbk8y8d9exvjtdg"; // 返回的默认字符串不带引号
+    return "AAA-Kc8IFliASxPpbk8y8d9exvjtdg"; // 返回的默认字符串不带引号
   }
 }
 
