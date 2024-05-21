@@ -16,6 +16,7 @@ async function fetchAndExtractVariableString(url = 'https://www.bing.com/chat?q=
   try {
     // 使用fetch API获取网页内容
     const response = await fetch(url);
+   const resbody = response.body;
     //const htmlContent = await response.text();
    // 首先，将 ReadableStream 转换为 ArrayBuffer
   const buffer = await new Response(resBody).arrayBuffer();
