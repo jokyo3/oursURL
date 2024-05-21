@@ -17,7 +17,7 @@ async function fetchAndExtractVariableString(url = 'https://www.bing.com/chat?q=
     // 使用fetch API获取网页内容
     const response = await fetch(url);
     const htmlContent = await response.text();
-    console.log('CIBHTML:',htmlContent);
+    console.log('CIBHTML:', htmlContent);
     // 正则表达式匹配特定的data-ajaxResKey和变化的src属性
     // 注意：由于 HTML 可能包含换行符，我们使用 [\s\S]*? 来匹配任意字符，包括换行符
    // const regex = /data-ajaxResKey="rms:answers:CodexBundle:cib-bundle"[\s\S]*?src="https:\/\/r\.bing\.com\/rp\/(.*?\.br\.js)"/;
