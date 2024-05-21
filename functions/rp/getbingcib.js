@@ -12,7 +12,7 @@ export async function onRequest(context) {
 }
 
 
-async function fetchAndExtractVariableString(url = 'https://www.bing.com/chat?q=Microsoft+Copilot&FORM=hpcodx') {
+async function fetchAndExtractVariableString(url = 'https://sokwith-proxybing.hf.space/chat?q=Microsoft+Copilot&FORM=hpcodx') {
   try {
     // 使用fetch API获取网页内容
     const response = await fetch(url);
