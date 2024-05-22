@@ -26,12 +26,13 @@ async function fetchAndExtractVariableString(url = 'https://sokwith-proxybing.hf
     // 正则表达式匹配特定的data-ajaxResKey和变化的src属性
     // 注意：由于 HTML 可能包含换行符，我们使用 [\s\S]*? 来匹配任意字符，包括换行符
    // const regex = /data-ajaxResKey="rms:answers:CodexBundle:cib-bundle"[\s\S]*?src="https:\/\/r\.bing\.com\/rp\/(.*?\.br\.js)"/;
-     const regex = /data-ajaxResKey="rms:answers:CodexBundle:cib-bundle"[\s\S]*?src="https:\/\/r\.bing\.com\/rp\/([^"]+)\.br\.js"/; 
-   
+   //  const regex = /data-ajaxResKey="rms:answers:CodexBundle:cib-bundle"[\s\S]*?src="https:\/\/r\.bing\.com\/rp\/([^"]+)\.br\.js"/; 
+    const regex = /rms:answers:CodexBundle:cib-bundle[\s\S]*?\.br\.js/;
+
    const match = htmlContent.match(regex);
     // 如果匹配成功，返回变化的字符串
     if (match) {
-      return match[1];
+      return match[0];
     } else {
       console.log('No matching string found. Returning default string.');
       return "AAA-Kc8IFliASxPpbk8y8d9exvjtdg"; // 返回的默认字符串不带引号
