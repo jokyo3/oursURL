@@ -179,10 +179,11 @@
         paginationContainer.id = 'pagination'; // Set the id of the pagination container
         document.body.appendChild(paginationContainer); // Append the pagination container to the body
         const photoWall = document.getElementById('photoWall');
-        const photoUrl = document.getElementById('photoUrl');
+        //const photoUrls = document.getElementById('photoUrl').value.trim().split('\n');
+        const photoUrlbox = document.getElementById('photoUrl');
 
         photoWall.insertAdjacentElement('afterend', paginationContainer); // Insert the pagination container after the photoWall
-        photoUrl.insertAdjacentElement('beforebegin', paginationContainer); // Insert the pagination container before the photoUrl
+        photoUrlbox.insertAdjacentElement('beforebegin', paginationContainer); // Insert the pagination container before the photoUrl
 
         let photoUrls = [];
         
@@ -257,7 +258,7 @@
         }
 
         async function AsubmitPhoto() {
-       //     const photoUrls = document.getElementById('photoUrl').value.trim().split('\n');
+            const photoUrls = document.getElementById('photoUrl').value.trim().split('\n');
             const validPhotoUrls = photoUrls.filter(url => url.trim() !== '');
             const photoUrlsString = validPhotoUrls.join('\n');
             const response = await fetch('./db/addbpho', {
