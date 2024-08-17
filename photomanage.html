@@ -171,18 +171,14 @@
     <textarea id="photoUrl" placeholder="输入图片URL地址，每行一个；无输入请选择图片上传：" cols="60" rows="5"></textarea>
     <button id="submitPhoto">批量添加图片</button>
 
-    <div id="myModal" class="modal">
-        <span class="close">×</span>
-        <img class="modal-content" id="img01">
+  //  <div id="myModal" class="modal">
+   //     <span class="close">×</span>
+  //      <img class="modal-content" id="img01">
+  //  </div>
+    <div id="myModal" class="modal" v-if="modalVisible">
+        <span class="close" @click="closeModal">×</span>
+        <el-image :src="imageUrl" :preview-src-list="imageList" fit="cover" lazy></el-image>
     </div>
-    <div id="app">
-          <el-image
-            :src="imageUrl"
-            :preview-src-list="imageList"
-            fit="cover"
-            lazy>
-          </el-image>
-        </div>
     
  <!-- Import Vue before Element -->
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
@@ -195,9 +191,20 @@
           data() {
             return {
               imageUrl: '',
-              imageList: []
+              imageList: [],
+              modalVisible: false // 控制模态窗口是否显示
             };
-          }
+          },
+          methods: {
+           showModal(url) {
+             this.imageUrl = url;
+             this.imageList = [url];
+              this.modalVisible = true; // 显示模态窗口
+            },
+            closeModal() {
+              this.modalVisible = false; // 隐藏模态窗口
+           }
+         }
         });
         function showModal(url) {
           // 确保 Vue 实例已经初始化并且可以访问
@@ -223,10 +230,10 @@
 
         let photoUrls = [];
         
-    //    function showModal(url) {
-    //        document.body.classList.add('modal-open');
+     //   function showModal(url) {
+     //       document.body.classList.add('modal-open');
      //       document.getElementById('myModal').style.display = "block";
-           // document.getElementById('img01').src = url;
+     //       document.getElementById('img01').src = url;
 
             // 检查是否已经存在 el-image 元素，如果不存在则创建
      //       var elImage = document.getElementById('elImageId');
@@ -241,7 +248,7 @@
       //      elImage.setAttribute(':preview-src-list', url);
       //     elImage.setAttribute('fit', 'cover');
       //      elImage.setAttribute('lazy', '');
-     //   }
+      //  }
         function createPhotoContainer(url) {
             let imgContainer = document.createElement('div');
             imgContainer.classList.add('img-container');
