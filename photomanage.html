@@ -331,13 +331,12 @@
         // Define totalPhotos within the updatePagination function
         for (let i = 1; i <= totalPages; i++) {
           const pageButton = document.createElement('button');
-         pageButton.textContent = i;
-          pageButton.classList.add('pagination-button');
-          pageButton.addEventListener('click', (pageNumber) => {
-            return function() {
-            showPage(pageNumber);
-         }(i);
-          });
+           pageButton.textContent = i;
+         pageButton.classList.add('pagination-button');
+         let pageNumber = i; // Create a new scope for pageNumber
+          pageButton.addEventListener('click', () => {
+        showPage(pageNumber);
+    });
            paginationContainer.appendChild(pageButton);
           
         lazyLoadPhotos(); // Call lazyLoadPhotos after updating pagination
