@@ -153,6 +153,10 @@
     .pagination-button:hover {
         background-color: #e9e9e9;
     }
+    .pagination-active {
+    background-color: #28a745; /* 绿色背景 */
+    color: white; /* 白色文字 */
+}
     </style>
 </head>
 <body>
@@ -331,7 +335,28 @@
             };
             lazyLoadPhotos(totalPages); // Call lazyLoadPhotos after updating pagination
         }
-
+function updatePagination(photosPerPage) {
+    const totalPhotos = photoUrls.length; // Calculate total photos from photoUrls array
+    const totalPages = Math.ceil(totalPhotos / photosPerPage);
+    paginationContainer.innerHTML = ''; // Clear existing pagination buttons
+    for (let i = 1; i <= totalPages; i++) {
+        let pageButton = document.createElement('button');
+        pageButton.textContent = i;
+        pageButton.classList.add('pagination-button');
+        if (i === currentPage) {
+            pageButton.classList.add('pagination-active'); // Highlight the current page button
+        }
+        pageButton.addEventListener('click', function(page) {
+            return function() {
+                lazyLoadPhotos(page);
+                document.querySelectorAll('.pagination-button').forEach(btn => btn.classList.remove('active'));
+                pageButton.classList.add('active'); // Update active class on click
+            };
+        }(i));
+        paginationContainer.appendChild(pageButton);
+    };
+    lazyLoadPhotos(currentPage); // Call lazyLoadPhotos after updating pagination
+}
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/browser-image-compression/2.0.2/browser-image-compression.min.js"></script>
     <script src="album-management.js"></script>
