@@ -406,6 +406,7 @@
         }
       },
       mounted() {
+        const params = new URLSearchParams(window.location.search);
         const username = params.get('username');
         const dirName = params.get('directory');
         fetch(`./db/getdbab`, {
