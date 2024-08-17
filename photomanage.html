@@ -350,8 +350,8 @@
         // Function to show photos for a specific page
         function showPage(pageNumber) {
             currentPage = pageNumber; // 更新当前页码
-            const startIndex = (pageNumber - 1) * itemsPerPage;
-            const endIndex = Math.min(startIndex + itemsPerPage, totalPhotos);
+            startIndex = (pageNumber - 1) * itemsPerPage;
+            endIndex = Math.min(startIndex + itemsPerPage, totalPhotos);
            // Display photos from startIndex to endIndex
            displayPhotos(startIndex, endIndex);
         }
