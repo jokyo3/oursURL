@@ -135,6 +135,24 @@
             grid-gap: 10px;
             margin-top: 20px;
         }
+        .pagination-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .pagination-button {
+        display: inline-block;
+        padding: 5px 10px;
+        margin: 0 5px;
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .pagination-button:hover {
+        background-color: #e9e9e9;
+    }
     </style>
 </head>
 <body>
@@ -291,33 +309,31 @@
             displayPhotos(startIndex, endIndex);
         }
 
-        function updatePagination() {
-           const totalPages = Math.ceil(photoUrls.length / itemsPerPage);
-            const paginationContainer = document.createElement('div');
-             paginationContainer.classList.add('pagination');
+        // Function to update pagination based on total photos and photos per page
+        function updatePagination(totalPhotos, photosPerPage) {
+         const totalPages = Math.ceil(totalPhotos / photosPerPage);
+         const paginationContainer = document.getElementById('pagination');
+          paginationContainer.innerHTML = ''; // Clear existing pagination buttons
 
           for (let i = 1; i <= totalPages; i++) {
-              let pageButton = document.createElement('button');
-             pageButton.textContent = i;
-             pageButton.onclick = function() {
-                currentPage = i;
-               photoWall.innerHTML = ''; // Clear existing photos
-               lazyLoadPhotos(); // Load photos for the selected page
-           };
-           paginationContainer.appendChild(pageButton);
-         }
-
-            // Replace existing pagination container with the updated one
-            const existingPagination = document.querySelector('.pagination');
-         if (existingPagination) {
-             existingPagination.replaceWith(paginationContainer);
-          } else {
-              document.body.appendChild(paginationContainer);
+              const pageButton = document.createElement('button');
+              pageButton.textContent = i;
+             pageButton.classList.add('pagination-button'); // Apply CSS style to pagination button
+             pageButton.addEventListener('click', () => showPage(i));
+             paginationContainer.appendChild(pageButton);
           }
         }
 
-        lazyLoadPhotos();
-        updatePagination();
+        // Function to show photos for a specific page
+        function showPage(pageNumber) {
+            const startIndex = (pageNumber - 1) * photosPerPage;
+          const endIndex = Math.min(startIndex + photosPerPage, totalPhotos);
+
+           // Display photos from startIndex to endIndex
+        }
+
+        // Call updatePagination function with total number of photos and photos per page
+        updatePagination(totalPhotos, photosPerPage);
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/browser-image-compression/2.0.2/browser-image-compression.min.js"></script>
     <script src="album-management.js"></script>
