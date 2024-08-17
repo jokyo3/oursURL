@@ -336,7 +336,7 @@
          paginationContainer.innerHTML = ''; // Clear existing pagination buttons
                 // Define totalPhotos within the updatePagination function
                 for (let i = 1; i <= totalPages; i++) {
-            const pageButton = document.createElement('button');
+            let pageButton = document.createElement('button');
             pageButton.textContent = i;
             pageButton.classList.add('pagination-button');
             pageButton.addEventListener('click', function(page) {
