@@ -175,10 +175,13 @@
    //     <span class="close">×</span>
   //      <img class="modal-content" id="img01">
   //  </div>
-    <div id="myModal" class="modal" v-if="modalVisible">
-        <span class="close" @click="closeModal">×</span>
-        <el-image :src="imageUrl" :preview-src-list="imageList" fit="cover" lazy></el-image>
-    </div>
+   <div id="app">
+       <div id="myModal" class="modal" v-if="modalVisible">
+           <span class="close" @click="closeModal">×</span>
+           <el-image :src="imageUrl" :preview-src-list="imageList" fit="cover" lazy></el-image>
+       </div>
+       <!-- 其他 Vue 管理的内容 -->
+   </div>
     
  <!-- Import Vue before Element -->
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
