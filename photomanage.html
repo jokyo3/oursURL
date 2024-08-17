@@ -227,14 +227,14 @@
             photoWall.innerHTML = '';
     
          // Add pagination logic here
-          const startIndex = (currentPage - 1) * itemsPerPage;
-         const endIndex = currentPage * itemsPerPage;
-         const photosToDisplay = photoUrls.slice(startIndex, endIndex);
+        //  const startIndex = (currentPage - 1) * itemsPerPage;
+        // const endIndex = currentPage * itemsPerPage;
+        // const photosToDisplay = photoUrls.slice(startIndex, endIndex);
 
-         photosToDisplay.forEach(url => {
-                let imgContainer = createPhotoContainer(url);
-             photoWall.appendChild(imgContainer);
-          });
+        // photosToDisplay.forEach(url => {
+        //        let imgContainer = createPhotoContainer(url);
+        //     photoWall.appendChild(imgContainer);
+        //  });
 
           // Update pagination after loading photos
           updatePagination(photoUrls.length, itemsPerPage);
@@ -331,6 +331,7 @@
              pageButton.addEventListener('click', () => showPage(i));
              paginationContainer.appendChild(pageButton);
           }
+          lazyLoadPhotos(); // Call lazyLoadPhotos after updating pagination
         }
 
         // Function to show photos for a specific page
@@ -342,7 +343,7 @@
         }
 
         // Call updatePagination function with total number of photos and photos per page
-        updatePagination(totalPhotos, photosPerPage);
+      //  updatePagination(totalPhotos, photosPerPage);
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/browser-image-compression/2.0.2/browser-image-compression.min.js"></script>
     <script src="album-management.js"></script>
