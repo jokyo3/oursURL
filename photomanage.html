@@ -333,14 +333,18 @@
          const totalPages = Math.ceil(totalPhotos / photosPerPage);
          const paginationContainer = document.getElementById('pagination');
          paginationContainer.innerHTML = ''; // Clear existing pagination buttons
-        // Define totalPhotos within the updatePagination function
-        for (let i = 1; i <= totalPages; i++) {
+                // Define totalPhotos within the updatePagination function
+                for (let i = 1; i <= totalPages; i++) {
             const pageButton = document.createElement('button');
-           pageButton.textContent = i;
-           pageButton.classList.add('pagination-button');
-           pageButton.addEventListener('click', function() { showPage(i); }); // 将箭头函数更改为普通函数，以正确捕获 i 的值
-          paginationContainer.appendChild(pageButton);
-     };
+            pageButton.textContent = i;
+            pageButton.classList.add('pagination-button');
+            pageButton.addEventListener('click', function(page) {
+                return function() {
+                    showPage(page);
+                };
+            }(i)); // 通过立即调用一个函数创建闭包，确保每个按钮都获得正确的点击处理函数
+            paginationContainer.appendChild(pageButton);
+        };
         lazyLoadPhotos(); // Call lazyLoadPhotos after updating pagination
         }
 
