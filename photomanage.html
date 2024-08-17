@@ -206,13 +206,13 @@
            }
          }
         });
-        function showModal(url) {
+     //   function showModal(url) {
           // 确保 Vue 实例已经初始化并且可以访问
-          if (vm) {
-            vm.imageUrl = url;       // 设置当前显示的图片
-            vm.imageList = [url];   // 设置预览列表为只包含这一张图片
-          }
-        }
+    //      if (vm) {
+    //        vm.imageUrl = url;       // 设置当前显示的图片
+     //       vm.imageList = [url];   // 设置预览列表为只包含这一张图片
+    //      }
+    //    }
         const params = new URLSearchParams(window.location.search);
         const username = params.get('username');
         const dirName = params.get('directory');
