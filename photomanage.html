@@ -342,16 +342,19 @@
                 pageButton.addEventListener('click', () => showPage(i));
                 paginationContainer.appendChild(pageButton);
           }
-         lazyLoadPhotos(); // Call lazyLoadPhotos after updating pagination
+          
+          showPage(currentPage); // Call showPage with the current page after updating pagination
+
+       //  lazyLoadPhotos(); // Call lazyLoadPhotos after updating pagination
         }
 
 
         // Function to show photos for a specific page
         function showPage(pageNumber) {
             const startIndex = (pageNumber - 1) * itemsPerPage;
-          const endIndex = Math.min(startIndex + itemsPerPage, totalPhotos);
-
+            const endIndex = Math.min(startIndex + itemsPerPage, totalPhotos);
            // Display photos from startIndex to endIndex
+           displayPhotos(startIndex, endIndex);
         }
 
         // Call updatePagination function with total number of photos and photos per page
