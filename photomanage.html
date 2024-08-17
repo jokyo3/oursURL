@@ -335,11 +335,11 @@
            pageButton.classList.add('pagination-button');
           pageButton.addEventListener('click', (pageNumber) => {
                 return function() {
-               showPage(pageNumber);
-           }(i);
+               showPage(i);
+           };
          });
           paginationContainer.appendChild(pageButton);
-        //lazyLoadPhotos(); // Call lazyLoadPhotos after updating pagination
+        lazyLoadPhotos(); // Call lazyLoadPhotos after updating pagination
         }
 
 
