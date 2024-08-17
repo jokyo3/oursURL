@@ -237,7 +237,7 @@
         //  });
 
           // Update pagination after loading photos
-        //  updatePagination(photoUrls.length, itemsPerPage);
+          updatePagination(itemsPerPage);
         }
         
 
@@ -310,6 +310,10 @@
               }
          }
         }
+        
+        const paginationContainer = document.createElement('div'); // Create a new pagination container element
+           paginationContainer.id = 'pagination'; // Set the id of the pagination container
+          document.body.appendChild(paginationContainer); // Append the pagination container to the body
 
 
         function lazyLoadPhotos() {
@@ -346,7 +350,7 @@
         }
 
         // Call updatePagination function with total number of photos and photos per page
-        updatePagination(itemsPerPage);
+        //updatePagination(itemsPerPage);
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/browser-image-compression/2.0.2/browser-image-compression.min.js"></script>
     <script src="album-management.js"></script>
