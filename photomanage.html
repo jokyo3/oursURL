@@ -338,7 +338,7 @@
             const pageButton = document.createElement('button');
            pageButton.textContent = i;
            pageButton.classList.add('pagination-button');
-          pageButton.addEventListener('click', (pageNumber) => {
+          pageButton.addEventListener('click', () => {
                 return function() {
                showPage(i);
            };
