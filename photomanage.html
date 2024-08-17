@@ -336,14 +336,14 @@
 
         // Function to show photos for a specific page
         function showPage(pageNumber) {
-            const startIndex = (pageNumber - 1) * photosPerPage;
-          const endIndex = Math.min(startIndex + photosPerPage, totalPhotos);
+            const startIndex = (pageNumber - 1) * itemsPerPage;
+          const endIndex = Math.min(startIndex + itemsPerPage, totalPhotos);
 
            // Display photos from startIndex to endIndex
         }
 
         // Call updatePagination function with total number of photos and photos per page
-        updatePagination(totalPhotos, photosPerPage);
+        updatePagination(totalPhotos, itemsPerPage);
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/browser-image-compression/2.0.2/browser-image-compression.min.js"></script>
     <script src="album-management.js"></script>
