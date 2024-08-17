@@ -311,6 +311,7 @@
 
         
         function displayPhotos(startIndex, endIndex) {
+            photoWall.innerHTML = ''; // Clear existing photos before displaying new ones
             for (let i = startIndex; i < endIndex; i++) {
               let url = photoUrls[i];
               if (url) {
@@ -332,7 +333,7 @@
         function updatePagination(photosPerPage) {
           const totalPhotos = photoUrls.length; // Calculate total photos from photoUrls array
          const totalPages = Math.ceil(totalPhotos / photosPerPage);
-         //const paginationContainer = document.getElementById('pagination');
+        // const paginationContainer = document.getElementById('pagination');
          paginationContainer.innerHTML = ''; // Clear existing pagination buttons
                 // Define totalPhotos within the updatePagination function
                 for (let i = 1; i <= totalPages; i++) {
@@ -346,21 +347,9 @@
             }(i)); // 通过立即调用一个函数创建闭包，确保每个按钮都获得正确的点击处理函数
             paginationContainer.appendChild(pageButton);
         };
-        lazyLoadPhotos(totalPages); // Call lazyLoadPhotos after updating pagination
+        lazyLoadPhotos(currentPage); // Call lazyLoadPhotos after updating pagination
         }
 
-
-        // Function to show photos for a specific page
-        function showPage(pageNumber) {
-            currentPage = pageNumber; // 更新当前页码
-            startIndex = (pageNumber - 1) * itemsPerPage;
-            endIndex = Math.min(startIndex + itemsPerPage, totalPhotos);
-           // Display photos from startIndex to endIndex
-           displayPhotos(startIndex, endIndex);
-        }
-
-        // Call updatePagination function with total number of photos and photos per page
-        //updatePagination(itemsPerPage);
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/browser-image-compression/2.0.2/browser-image-compression.min.js"></script>
     <script src="album-management.js"></script>
