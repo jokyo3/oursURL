@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>管理相册</title>
+    <!-- Import CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-ui@2.15.3/lib/theme-chalk/index.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
     <style>
         /* 全局样式 */
         body, html {
@@ -192,9 +195,14 @@
         let photoUrls = [];
         
         function showModal(url) {
-            document.body.classList.add('modal-open');
-            document.getElementById('myModal').style.display = "block";
-            document.getElementById('img01').src = url;
+        //    document.body.classList.add('modal-open');
+        //    document.getElementById('myModal').style.display = "block";
+        //    document.getElementById('img01').src = url;
+            <el-image
+                src = url
+                :preview-src-list= url
+                fit="cover"
+                lazy></el-image>
         }
 
         function createPhotoContainer(url) {
