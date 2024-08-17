@@ -329,19 +329,16 @@
 
 
         // Define totalPhotos within the updatePagination function
-        function updatePagination(photosPerPage) {
-          const totalPhotos = photoUrls.length; // Calculate total photos from photoUrls array
-         const totalPages = Math.ceil(totalPhotos / photosPerPage);
-         const paginationContainer = document.getElementById('pagination');
-         paginationContainer.innerHTML = ''; // Clear existing pagination buttons
-
-            for (let i = 1; i <= totalPages; i++) {
-               const pageButton = document.createElement('button');
-               pageButton.textContent = i;
-                pageButton.classList.add('pagination-button'); // Apply CSS style to pagination button
-                pageButton.addEventListener('click', () => showPage(i));
-                paginationContainer.appendChild(pageButton);
-          }
+        for (let i = 1; i <= totalPages; i++) {
+          const pageButton = document.createElement('button');
+         pageButton.textContent = i;
+          pageButton.classList.add('pagination-button');
+          pageButton.addEventListener('click', (pageNumber) => {
+            return function() {
+            showPage(pageNumber);
+         }(i);
+          });
+           paginationContainer.appendChild(pageButton);
           
         lazyLoadPhotos(); // Call lazyLoadPhotos after updating pagination
         }
