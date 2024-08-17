@@ -328,6 +328,11 @@
         }
 
 
+        function updatePagination(photosPerPage) {
+          const totalPhotos = photoUrls.length; // Calculate total photos from photoUrls array
+         const totalPages = Math.ceil(totalPhotos / photosPerPage);
+         const paginationContainer = document.getElementById('pagination');
+         paginationContainer.innerHTML = ''; // Clear existing pagination buttons
         // Define totalPhotos within the updatePagination function
         for (let i = 1; i <= totalPages; i++) {
             const pageButton = document.createElement('button');
@@ -337,8 +342,9 @@
                 return function() {
                showPage(i);
            };
-         });
+        })；
           paginationContainer.appendChild(pageButton);
+     };
         lazyLoadPhotos(); // Call lazyLoadPhotos after updating pagination
         }
 
