@@ -338,7 +338,7 @@
             const pageButton = document.createElement('button');
            pageButton.textContent = i;
            pageButton.classList.add('pagination-button');
-          pageButton.addEventListener('click', () =>  showPage(i));
+           pageButton.addEventListener('click', function() { showPage(i); }); // 将箭头函数更改为普通函数，以正确捕获 i 的值
           paginationContainer.appendChild(pageButton);
      };
         lazyLoadPhotos(); // Call lazyLoadPhotos after updating pagination
