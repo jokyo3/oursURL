@@ -346,7 +346,7 @@
             }(i)); // 通过立即调用一个函数创建闭包，确保每个按钮都获得正确的点击处理函数
             paginationContainer.appendChild(pageButton);
         };
-        lazyLoadPhotos(currentPage); // Call lazyLoadPhotos after updating pagination
+        lazyLoadPhotos(i); // Call lazyLoadPhotos after updating pagination
         }
 
 
