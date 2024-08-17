@@ -174,10 +174,10 @@
         const username = params.get('username');
         const dirName = params.get('directory');
         document.getElementById('albumTitle').textContent = `${dirName} 相册`;
+
         const paginationContainer = document.createElement('div'); // Create a new pagination container element
-           paginationContainer.id = 'pagination'; // Set the id of the pagination container
-          document.body.appendChild(paginationContainer); // Append the pagination container to the body
-        
+        paginationContainer.id = 'pagination'; // Set the id of the pagination container
+        document.body.appendChild(paginationContainer); // Append the pagination container to the body
         const photoWall = document.getElementById('photoWall');
         const photoUrl = document.getElementById('photoUrl');
 
@@ -188,68 +188,51 @@
         
         function showModal(url) {
             document.body.classList.add('modal-open');
-             document.getElementById('myModal').style.display = "block";
-             document.getElementById('img01').src = url;
+            document.getElementById('myModal').style.display = "block";
+            document.getElementById('img01').src = url;
         }
 
         function createPhotoContainer(url) {
             let imgContainer = document.createElement('div');
             imgContainer.classList.add('img-container');
-
             let imgText = document.createElement('div');
             imgText.classList.add('img-text');
             imgText.textContent = url;
             imgContainer.appendChild(imgText);
-
             let img = document.createElement('img');
             img.src = url;
             img.style.width = '100%';
             img.style.height = '100%';
-            img.onclick = function() {
-            showModal(url);
-            }
-            imgContainer.appendChild(img);
 
+            img.onclick = function() {
+                showModal(url);
+            }
+
+            imgContainer.appendChild(img);
             let deleteButton = document.createElement('button');
-             deleteButton.textContent = '删除';
-             deleteButton.classList.add('delete-btn');
-              deleteButton.onclick = function() {
+            deleteButton.textContent = '删除';
+            deleteButton.classList.add('delete-btn');
+            deleteButton.onclick = function() {
             if (confirm('确定要删除这张图片吗？')) {
                deletePhoto(url);
                }
              };
              imgContainer.appendChild(deleteButton);
-
              return imgContainer;
             }
-        
-
-       
+              
          async function getPhotos() {
             const response = await fetch(`./db/getdbab`, {
                 method: 'POST',
                body: JSON.stringify({ username, dirName }),
               headers: { 'Content-Type': 'application/json' }
-         });
-         photoUrls = await response.json();
-      //   const photoWall = document.getElementById('photoWall');
+            });
+            photoUrls = await response.json();
             photoWall.innerHTML = '';
     
-         // Add pagination logic here
-        //  const startIndex = (currentPage - 1) * itemsPerPage;
-        // const endIndex = currentPage * itemsPerPage;
-        // const photosToDisplay = photoUrls.slice(startIndex, endIndex);
-
-        // photosToDisplay.forEach(url => {
-        //        let imgContainer = createPhotoContainer(url);
-        //     photoWall.appendChild(imgContainer);
-        //  });
-
-          // Update pagination after loading photos
-          updatePagination(itemsPerPage);
+            updatePagination(itemsPerPage);
         }
         
-
         async function deletePhoto(photoUrl) {
             const response = await fetch('./db/deledbpho', {
                 method: 'POST',
@@ -302,24 +285,23 @@
 
         getPhotos();
           // 返回首页按钮的点击事件
-    document.getElementById('returnHome').onclick = function() {
+        document.getElementById('returnHome').onclick = function() {
         window.location.href = '/'; // 这里的 '/' 表示网站的根目录，根据实际情况修改
-    };
+        };
 
-    let currentPage = 1;
+        let currentPage = 1;
         const itemsPerPage = 15; // 5 columns * 3 rows = 15 items per page
-
-        
+ 
         function displayPhotos(startIndex, endIndex) {
             photoWall.innerHTML = ''; // Clear existing photos before displaying new ones
             for (let i = startIndex; i < endIndex; i++) {
-              let url = photoUrls[i];
-              if (url) {
-                 let imgContainer = createPhotoContainer(url);
-                 photoWall.appendChild(imgContainer);
+            let url = photoUrls[i];
+            if (url) {
+                let imgContainer = createPhotoContainer(url);
+                photoWall.appendChild(imgContainer);
               }
-         }
-        }
+             }
+            }
 
 
         function lazyLoadPhotos(pageNumber) {
@@ -327,27 +309,26 @@
             const startIndex = (currentPage - 1) * itemsPerPage;
             const endIndex = currentPage * itemsPerPage;
             displayPhotos(startIndex, endIndex);
-        }
+            }
 
 
         function updatePagination(photosPerPage) {
-          const totalPhotos = photoUrls.length; // Calculate total photos from photoUrls array
-         const totalPages = Math.ceil(totalPhotos / photosPerPage);
-        // const paginationContainer = document.getElementById('pagination');
-         paginationContainer.innerHTML = ''; // Clear existing pagination buttons
-                // Define totalPhotos within the updatePagination function
-                for (let i = 1; i <= totalPages; i++) {
+            const totalPhotos = photoUrls.length; // Calculate total photos from photoUrls array
+            const totalPages = Math.ceil(totalPhotos / photosPerPage);
+            paginationContainer.innerHTML = ''; // Clear existing pagination buttons
+            // Define totalPhotos within the updatePagination function
+            for (let i = 1; i <= totalPages; i++) {
             let pageButton = document.createElement('button');
             pageButton.textContent = i;
             pageButton.classList.add('pagination-button');
             pageButton.addEventListener('click', function(page) {
                 return function() {
-                    lazyLoadPhotos(page);
+                lazyLoadPhotos(page);
                 };
             }(i)); // 通过立即调用一个函数创建闭包，确保每个按钮都获得正确的点击处理函数
             paginationContainer.appendChild(pageButton);
-        };
-        lazyLoadPhotos(totalPages); // Call lazyLoadPhotos after updating pagination
+            };
+            lazyLoadPhotos(totalPages); // Call lazyLoadPhotos after updating pagination
         }
 
     </script>
