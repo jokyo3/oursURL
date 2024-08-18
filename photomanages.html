@@ -411,7 +411,7 @@
                body: JSON.stringify({ username, dirName }),
               headers: { 'Content-Type': 'application/json' }
             })
-          .then(response => response.json())
+       //   .then(response => response.json())
           .then(result => {
             this.tableData = result.map(file => ({ name: file, selected: false }));
             this.updateStats();
