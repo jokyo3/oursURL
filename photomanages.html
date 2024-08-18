@@ -342,7 +342,7 @@
              const params = new URLSearchParams(window.location.search);
             const username = params.get('username');
             const dirName = params.get('directory');
-            const response = await fetch('./db/deledbpho', {
+            const response = fetch('./db/deledbpho', {
                 method: 'POST',
                 body: JSON.stringify({ username, dirName, photoUrl }),
                 headers: { 'Content-Type': 'application/json' }
