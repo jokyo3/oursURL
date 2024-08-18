@@ -414,6 +414,7 @@
           .then(response => response.json())
           .then(result => {
             this.tableData = result.map(file => ({ name: file, selected: false }));
+            console.log('Updated tableData:', this.tableData); // 添加这行代码来输出tableData
             this.updateStats();
           })
           .catch(() => this.$message.error('同步数据时出错，请检查网络连接'));
