@@ -334,27 +334,32 @@
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-         //   const delurl = `${key}`;
-            this.deletePhoto(key);
+            deletePhoto(key);
           }).catch(() => this.$message.info('已取消删除'));
         },
-       deletePhoto(photoUrl) {
-             const params = new URLSearchParams(window.location.search);
+        deletePhoto(photoUrl) {
+            const params = new URLSearchParams(window.location.search);
             const username = params.get('username');
             const dirName = params.get('directory');
-            const response = fetch('./db/deledbpho', {
+            fetch('./db/deledbpho', {
                 method: 'POST',
                 body: JSON.stringify({ username, dirName, photoUrl }),
                 headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('图片删除成功，请稍后刷新信息');
+                    window.location.reload();
+                } else {
+                    alert('图片删除失败，请稍后重试.....');
+                    console.error('Failed to delete photo');
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting photo:', error);
+                alert('图片删除失败，已取消.....');
             });
-            if (response.ok) {
-                alert('图片删除成功，请稍后刷新信息');
-                window.location.reload();
-            } else {
-                alert('图片删除失败，请稍后重试.....');
-                console.error('Failed to delete photo');
-            }
-        },
+        },,
         handleBatchDelete() {
           this.$confirm('此操作将永久删除选中的文件, 是否继续?', '提示', {
             confirmButtonText: '确定',
