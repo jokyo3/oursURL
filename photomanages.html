@@ -396,10 +396,6 @@
         },
         sort(command) {
           this.sortOption = command;
-        },
-        sortData(data) {
-          return this.sortOption === 'nameAsc' ? data.sort((a, b) => a.name.localeCompare(b.name)) :
-            data.sort((a, b) => b.metadata.TimeStamp - a.metadata.TimeStamp);
         }
       },
       mounted() {
