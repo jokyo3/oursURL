@@ -234,7 +234,7 @@
     <el-container>
       <el-header>
         <div class="header-content">
-          <span class="title" @click="refreshDashboard">Dashboard</span>
+          <span class="title" @click="refreshDashboard">{{ dashboardTitle }}</span>
           <div class="search-card">
             <el-input v-model="search" size="mini" placeholder="输入关键字搜索"></el-input>
           </div>
@@ -290,6 +290,10 @@
   <!-- Import JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/element-ui@2.15.3/lib/index.js"></script>
   <script>
+        const params = new URLSearchParams(window.location.search);
+        const username = params.get('username');
+        const dirName = params.get('directory');
+        document.getElementById('title').textContent = `${dirName} 相册`;
     new Vue({
       el: '#app',
       data: {
@@ -300,7 +304,8 @@
         currentPage: 1,
         pageSize: 15,
         selectedFiles: [],
-        isUploading: false
+        isUploading: false,
+        dashboardTitle: '' 
       },
       computed: {
         filteredTableData() {
@@ -418,6 +423,7 @@
           const params = new URLSearchParams(window.location.search);
           const username = params.get('username');
           const dirName = params.get('directory');
+          this.dashboardTitle = dirName + ' Dashboard';
         fetch(`./db/getdbab`, {
                 method: 'POST',
                body: JSON.stringify({ username, dirName }),
