@@ -245,10 +245,7 @@
             <el-tooltip content="批量复制" placement="bottom">
               <i class="fas fa-link" :class="{ disabled: selectedFiles.length === 0 }" @click="handleBatchCopy"></i>
             </el-tooltip>
-            <el-tooltip content="批量删除" placement="bottom">
-              <i class="fas fa-trash-alt" :class="{ disabled: selectedFiles.length === 0 }" @click="handleBatchDelete"></i>
-            </el-tooltip>
-            <el-tooltip content="退出登录" placement="bottom">
+           <el-tooltip content="退出登录" placement="bottom">
               <i class="fas fa-home" @click="handleLogout"></i>
             </el-tooltip>
           </div>
