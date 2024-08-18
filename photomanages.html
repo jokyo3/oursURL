@@ -334,8 +334,8 @@
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            const delurl = `${key}`;
-            this.deletePhoto(delurl);
+         //   const delurl = `${key}`;
+            this.deletePhoto(key);
           }).catch(() => this.$message.info('已取消删除'));
         },
        deletePhoto(photoUrl) {
