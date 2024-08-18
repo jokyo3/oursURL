@@ -293,6 +293,9 @@
   <!-- Import JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/element-ui@2.15.3/lib/index.js"></script>
   <script>
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get('username');
+    const dirName = params.get('directory');
     new Vue({
       el: '#app',
       data: {
@@ -337,6 +340,20 @@
             const delurl = `${key}`;
             deletePhoto(delurl);
           }).catch(() => this.$message.info('已取消删除'));
+        },
+       deletePhoto(photoUrl) {
+            const response = await fetch('./db/deledbpho', {
+                method: 'POST',
+                body: JSON.stringify({ username, dirName, photoUrl }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.ok) {
+                alert('图片删除成功，请稍后刷新信息');
+                window.location.reload();
+            } else {
+                alert('图片删除失败，请稍后重试.....');
+                console.error('Failed to delete photo');
+            }
         },
         handleBatchDelete() {
           this.$confirm('此操作将永久删除选中的文件, 是否继续?', '提示', {
@@ -395,10 +412,7 @@
           this.Number = this.tableData.length;
         }
       },
-      mounted() {
-        const params = new URLSearchParams(window.location.search);
-        const username = params.get('username');
-        const dirName = params.get('directory');
+      mounted() {        
         fetch(`./db/getdbab`, {
                 method: 'POST',
                body: JSON.stringify({ username, dirName }),
@@ -413,21 +427,6 @@
           .catch(() => this.$message.error('同步数据时出错，请检查网络连接'));
       }
     });
-
-    async function deletePhoto(photoUrl) {
-            const response = await fetch('./db/deledbpho', {
-                method: 'POST',
-                body: JSON.stringify({ username, dirName, photoUrl }),
-                headers: { 'Content-Type': 'application/json' }
-            });
-            if (response.ok) {
-                alert('图片删除成功，请稍后刷新信息');
-                window.location.reload();
-            } else {
-                alert('图片删除失败，请稍后重试.....');
-                console.error('Failed to delete photo');
-            }
-        }
 
   </script>
 </body>
