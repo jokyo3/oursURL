@@ -290,10 +290,6 @@
   <!-- Import JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/element-ui@2.15.3/lib/index.js"></script>
   <script>
-        const params = new URLSearchParams(window.location.search);
-        const username = params.get('username');
-        const dirName = params.get('directory');
-        document.getElementById('title').textContent = `${dirName} 相册`;
     new Vue({
       el: '#app',
       data: {
