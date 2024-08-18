@@ -293,9 +293,6 @@
   <!-- Import JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/element-ui@2.15.3/lib/index.js"></script>
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const username = params.get('username');
-    const dirName = params.get('directory');
     new Vue({
       el: '#app',
       data: {
@@ -342,6 +339,9 @@
           }).catch(() => this.$message.info('已取消删除'));
         },
        deletePhoto(photoUrl) {
+             const params = new URLSearchParams(window.location.search);
+            const username = params.get('username');
+            const dirName = params.get('directory');
             const response = await fetch('./db/deledbpho', {
                 method: 'POST',
                 body: JSON.stringify({ username, dirName, photoUrl }),
@@ -412,7 +412,10 @@
           this.Number = this.tableData.length;
         }
       },
-      mounted() {        
+      mounted() {     
+          const params = new URLSearchParams(window.location.search);
+          const username = params.get('username');
+          const dirName = params.get('directory');
         fetch(`./db/getdbab`, {
                 method: 'POST',
                body: JSON.stringify({ username, dirName }),
