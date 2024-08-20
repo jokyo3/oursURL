@@ -383,11 +383,8 @@
         },
         async handlePageChange(page) {
           this.currentPage = page;
-          const start = (this.currentPage - 1) * this.pageSize;
-          const end = start + this.pageSize;
-          this.paginatedTableData = this.filteredTableData.slice(start, end);
           await this.updatePaginatedTableData();
-  },
+        },
         updateStats() {
           this.Number = this.tableData.length;
          },
@@ -408,26 +405,30 @@
       }
     },
     async updatePaginatedTableData() {
-      console.log('updatePaginatedTableData called'); // 调试日志
-      const paginatedData = this.paginatedTableData;
+  console.log('updatePaginatedTableData called'); // 调试日志
+  const start = (this.currentPage - 1) * this.pageSize;
+  const end = start + this.pageSize;
+  const paginatedData = this.filteredTableData.slice(start, end);
 
-      if (paginatedData.length === 0) {
-       console.log('No data in paginatedTableData'); // 调试日志
-        return;
-       }
+  if (paginatedData.length === 0) {
+    console.log('No data in paginatedTableData'); // 调试日志
+    return;
+  }
 
-      // 压缩图片并为每个项目添加 compressedName
-      const promises = paginatedData.map(async (item) => {
-       console.log('Compressing image for:', item.name); // 调试日志
-       item.compressedName = await this.compressImage(item.name);
-       console.log('Compressed image for:', item.name); // 调试日志
-      });
+  // 压缩图片并为每个项目添加 compressedName
+  const promises = paginatedData.map(async (item) => {
+    console.log('Compressing image for:', item.name); // 调试日志
+    item.compressedName = await this.compressImage(item.name);
+    console.log('Compressed image for:', item.name); // 调试日志
+  });
 
-     await Promise.all(promises);
+  await Promise.all(promises);
 
-     // 触发响应式更新
-      this.$forceUpdate();
-    }
+  // 更新 paginatedTableData 并触发响应式更新
+  this.paginatedTableData = paginatedData;
+  this.$forceUpdate();
+}
+
 
   },
     mounted() {
