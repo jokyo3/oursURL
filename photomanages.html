@@ -257,7 +257,7 @@
             <el-card>
               <el-checkbox v-model="item.selected"></el-checkbox>
               <el-image
-                :src=item.name
+                :src=item.compressedName
                 :preview-src-list="[item.name]"
                 fit="cover"
                 lazy></el-image>
@@ -415,6 +415,32 @@
           this.Number = this.tableData.length;
         }
       },
+     async compressImage(url) {
+      try {
+        const response = await fetch(`https://nagose-compressimg.hf.space/resize?q=${encodeURIComponent(url)}`);
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const imageUrl = await response.text(); // 直接获取文本响应
+
+        console.log('Compressed image URL:', imageUrl);
+        return imageUrl;
+      } catch (error) {
+        console.error('Error compressing image:', error);
+      }
+    },
+    async updatePaginatedTableData() {
+      const paginatedData = this.paginatedTableData;
+
+      // Compress images and add compressedName to each item
+      for (let item of paginatedData) {
+        item.compressedName = await this.compressImage(item.name);
+      }
+
+      this.paginatedTableData = paginatedData;
+    },
       mounted() {     
           const params = new URLSearchParams(window.location.search);
           const username = params.get('username');
@@ -432,7 +458,8 @@
             this.updateStats();
           })
           .catch(() => this.$message.error('同步数据时出错，请检查网络连接'));
-      }
+          }
+        this.updatePaginatedTableData();
     });
 
   </script>
