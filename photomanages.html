@@ -468,8 +468,9 @@
             this.updateStats();
           })
           .catch(() => this.$message.error('同步数据时出错，请检查网络连接'));
+        
+        this.handlePageChange();
           }
-          this.handlePageChange();
     });
 
   </script>
