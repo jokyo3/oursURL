@@ -457,26 +457,27 @@
 }
 
   },
-      mounted() {     
-          const params = new URLSearchParams(window.location.search);
-          const username = params.get('username');
-          const dirName = params.get('directory');
-          this.dashboardTitle = dirName + ' 相册';
-        fetch(`./db/getdbab`, {
-                method: 'POST',
-               body: JSON.stringify({ username, dirName }),
-              headers: { 'Content-Type': 'application/json' }
-            })
-          .then(response => response.json())
-          .then(result => {
-            this.tableData = result.map(file => ({ name: file, selected: false }));
-            console.log('Updated tableData:', this.tableData); // 添加这行代码来输出tableData
-            this.updateStats();
-          })
-          .catch(() => this.$message.error('同步数据时出错，请检查网络连接'));
-        this.updateStats();
-        this.handlePageChange(this.currentPage);
-          }
+    mounted() {
+  const params = new URLSearchParams(window.location.search);
+  const username = params.get('username');
+  const dirName = params.get('directory');
+  this.dashboardTitle = dirName + ' 相册';
+  fetch(`./db/getdbab`, {
+    method: 'POST',
+    body: JSON.stringify({ username, dirName }),
+    headers: { 'Content-Type': 'application/json' }
+  })
+  .then(response => response.json())
+  .then(result => {
+    this.tableData = result.map(file => ({ name: file, selected: false }));
+    console.log('Updated tableData:', this.tableData); // 调试日志
+    this.updateStats();
+    this.handlePageChange(this.currentPage); // 确保在数据更新后调用
+    this.updatePaginatedTableData(); // 确保在数据更新后调用
+  })
+  .catch(() => this.$message.error('同步数据时出错，请检查网络连接'));
+}
+
     });
 
   </script>
