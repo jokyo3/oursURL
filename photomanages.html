@@ -301,7 +301,8 @@
         pageSize: 15,
         selectedFiles: [],
         isUploading: false,
-        dashboardTitle: '' 
+        dashboardTitle: '' ,
+        updateCounter: 0 // 添加计数器
       },
       computed: {
         filteredTableData() {
@@ -459,7 +460,8 @@
   this.paginatedTableData = updatedData;
 
   // 触发响应式更新
-  this.$forceUpdate();
+  //this.$forceUpdate();
+  this.updateCounter++;
 }
 
 
