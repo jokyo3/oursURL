@@ -301,8 +301,7 @@
         pageSize: 15,
         selectedFiles: [],
         isUploading: false,
-        dashboardTitle: '' ,
-        updateCounter: 0 // 添加计数器
+        dashboardTitle: '' 
       },
       computed: {
         filteredTableData() {
@@ -324,7 +323,6 @@
         },
         currentPage() {
           this.handlePageChange();
-          this.updatePaginatedTableData(); // 确保在页面变化后调用
           }
       },
       methods: {
@@ -362,31 +360,6 @@
                 console.error('Error deleting photo:', error);
                 alert('图片删除失败，已取消.....');
             });
-        },
-        handleBatchDelete() {
-          this.$confirm('此操作将永久删除选中的文件, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            const promises = this.selectedFiles.map(file => fetch(`./api/manage/delete/${file.name}`, { method: 'GET', credentials: 'include' }));
-
-            Promise.all(promises)
-              .then(results => {
-                results.forEach((response, index) => {
-                  if (response.ok) {
-                    const fileIndex = this.tableData.findIndex(file => file.name === this.selectedFiles[index].name);
-                    if (fileIndex !== -1) {
-                      this.tableData.splice(fileIndex, 1);
-                    }
-                  }
-                });
-                this.selectedFiles = [];
-                this.updateStats();
-                this.$message.success('批量删除成功!');
-              })
-              .catch(() => this.$message.error('批量删除失败，请检查网络连接'));
-          }).catch(() => this.$message.info('已取消批量删除'));
         },
         handleBatchCopy() {
           const links = this.selectedFiles.map(file => `${file.name}`).join('\n');
@@ -440,34 +413,23 @@
   console.log('updatePaginatedTableData called'); // 调试日志
   const paginatedData = this.paginatedTableData;
 
-  console.log('filteredTableData:', this.filteredTableData); // 调试日志
-  console.log('paginatedTableData:', paginatedData); // 调试日志
-
   if (paginatedData.length === 0) {
     console.log('No data in paginatedTableData'); // 调试日志
     return;
   }
 
-  // 使用临时变量存储压缩后的数据
-  const updatedData = await Promise.all(paginatedData.map(async (item) => {
+  // 压缩图片并为每个项目添加 compressedName
+  const promises = paginatedData.map(async (item) => {
     console.log('Compressing image for:', item.name); // 调试日志
     item.compressedName = await this.compressImage(item.name);
     console.log('Compressed image for:', item.name); // 调试日志
-    return item;
-  }));
+  });
 
-  // 检查 updatedData 的结构
-  console.log('Updated data:', updatedData); // 调试日志
-
-  // 更新 paginatedTableData 使用 Vue.set 确保响应式更新
-  this.$set(this, 'paginatedTableData', updatedData);
-  console.log('Updated paginatedTableData:', this.paginatedTableData); // 调试日志
+  await Promise.all(promises);
 
   // 触发响应式更新
-  //this.$forceUpdate();
-  this.updateCounter++;
+  this.$forceUpdate();
 }
-
 
   },
     mounted() {
