@@ -257,7 +257,7 @@
             <el-card>
               <el-checkbox v-model="item.selected"></el-checkbox>
               <el-image
-                :src=item.compressedName
+                :src=item.name
                 :preview-src-list="[item.name]"
                 fit="cover"
                 lazy></el-image>
@@ -321,9 +321,6 @@
           },
           deep: true
         }
-        currentPage() {
-        this.handlePageChange();
-      }
       },
       methods: {
         refreshDashboard() {
@@ -468,8 +465,7 @@
             this.updateStats();
           })
           .catch(() => this.$message.error('同步数据时出错，请检查网络连接'));
-        
-        this.handlePageChange();
+
           }
     });
 
