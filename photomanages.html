@@ -296,6 +296,7 @@
         Number: 0,
         showLogoutButton: false,
         tableData: [],
+        paginatedTableData: [], // 新增的数据属性
         search: '',
         currentPage: 1,
         pageSize: 15,
@@ -306,13 +307,7 @@
       computed: {
         filteredTableData() {
           return this.tableData.filter(data => !this.search || data.name.toLowerCase().includes(this.search.toLowerCase()));
-        },
-        paginatedTableData() {
-          const sortedData = this.filteredTableData;
-          const start = (this.currentPage - 1) * this.pageSize;
-          const end = start + this.pageSize;
-          return sortedData.slice(start, end);
-        },
+        }
       },
       watch: {
         tableData: {
@@ -388,8 +383,11 @@
         },
         async handlePageChange(page) {
           this.currentPage = page;
+          const start = (this.currentPage - 1) * this.pageSize;
+          const end = start + this.pageSize;
+          this.paginatedTableData = this.filteredTableData.slice(start, end);
           await this.updatePaginatedTableData();
-        },
+  },
         updateStats() {
           this.Number = this.tableData.length;
          },
@@ -410,26 +408,26 @@
       }
     },
     async updatePaginatedTableData() {
-  console.log('updatePaginatedTableData called'); // 调试日志
-  const paginatedData = this.paginatedTableData;
+      console.log('updatePaginatedTableData called'); // 调试日志
+      const paginatedData = this.paginatedTableData;
 
-  if (paginatedData.length === 0) {
-    console.log('No data in paginatedTableData'); // 调试日志
-    return;
-  }
+      if (paginatedData.length === 0) {
+       console.log('No data in paginatedTableData'); // 调试日志
+        return;
+       }
 
-  // 压缩图片并为每个项目添加 compressedName
-  const promises = paginatedData.map(async (item) => {
-    console.log('Compressing image for:', item.name); // 调试日志
-    item.compressedName = await this.compressImage(item.name);
-    console.log('Compressed image for:', item.name); // 调试日志
-  });
+      // 压缩图片并为每个项目添加 compressedName
+      const promises = paginatedData.map(async (item) => {
+       console.log('Compressing image for:', item.name); // 调试日志
+       item.compressedName = await this.compressImage(item.name);
+       console.log('Compressed image for:', item.name); // 调试日志
+      });
 
-  await Promise.all(promises);
+     await Promise.all(promises);
 
-  // 触发响应式更新
-  this.$forceUpdate();
-}
+     // 触发响应式更新
+      this.$forceUpdate();
+    }
 
   },
     mounted() {
@@ -448,7 +446,6 @@
     console.log('Updated tableData:', this.tableData); // 调试日志
     this.updateStats();
     this.handlePageChange(this.currentPage); // 确保在数据更新后调用
-    this.updatePaginatedTableData(); // 确保在数据更新后调用
   })
   .catch(() => this.$message.error('同步数据时出错，请检查网络连接'));
 }
