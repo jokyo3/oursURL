@@ -323,6 +323,7 @@
         },
         currentPage() {
           this.handlePageChange();
+          this.updatePaginatedTableData(); // 确保在页面变化后调用
           }
       },
       methods: {
