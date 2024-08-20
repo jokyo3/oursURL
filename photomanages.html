@@ -411,8 +411,9 @@
           navigator.clipboard ? navigator.clipboard.writeText(text).then(() => this.$message.success('复制文件链接成功~')) :
             this.copyToClipboardFallback(text);
         },
-        handlePageChange(page) {
+        async handlePageChange(page) {
           this.currentPage = page;
+          await this.updatePaginatedTableData();
         },
         updateStats() {
           this.Number = this.tableData.length;
@@ -445,10 +446,7 @@
 
     // Trigger reactivity
     this.$forceUpdate();
-    },
-    async handlePageChange() {
-    await this.updatePaginatedTableData();
-  }
+    }
   },
       mounted() {     
           const params = new URLSearchParams(window.location.search);
@@ -467,7 +465,7 @@
             this.updateStats();
           })
           .catch(() => this.$message.error('同步数据时出错，请检查网络连接'));
-        this.handlePageChange();
+        this.handlePageChange(this.currentPage);
           }
     });
 
