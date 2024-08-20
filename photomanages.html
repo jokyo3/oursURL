@@ -432,15 +432,18 @@
       }
     },
     async updatePaginatedTableData() {
-      const paginatedData = this.paginatedTableData;
+    const paginatedData = this.paginatedTableData;
 
-      // Compress images and add compressedName to each item
-      for (let item of paginatedData) {
-        item.compressedName = await this.compressImage(item.name);
-      }
+    // Compress images and add compressedName to each item
+    const promises = paginatedData.map(async (item) => {
+      item.compressedName = await this.compressImage(item.name);
+    });
 
-      this.paginatedTableData = paginatedData;
-    },
+    await Promise.all(promises);
+
+    // Trigger reactivity
+    this.$forceUpdate();
+  },
       mounted() {     
           const params = new URLSearchParams(window.location.search);
           const username = params.get('username');
