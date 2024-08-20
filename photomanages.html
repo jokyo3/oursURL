@@ -321,6 +321,9 @@
           },
           deep: true
         }
+        currentPage() {
+        this.handlePageChange();
+      }
       },
       methods: {
         refreshDashboard() {
@@ -443,6 +446,10 @@
 
     // Trigger reactivity
     this.$forceUpdate();
+    },
+    async handlePageChange() {
+    await this.updatePaginatedTableData();
+  }
   },
       mounted() {     
           const params = new URLSearchParams(window.location.search);
@@ -462,7 +469,7 @@
           })
           .catch(() => this.$message.error('同步数据时出错，请检查网络连接'));
           }
-        this.updatePaginatedTableData();
+          this.handlePageChange();
     });
 
   </script>
