@@ -9,225 +9,263 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
   <script src="https://js.sentry-cdn.com/219f636ac7bde5edab2c3e16885cb535.min.js" crossorigin="anonymous"></script>
   <style>
-    body {
-      background: linear-gradient(90deg, #ffd7e4 0%, #c8f1ff 100%);
-      font-family: 'Arial', sans-serif;
-      color: #333;
-      margin: 0;
-      padding: 0;
-    }
+  body {
+    background: linear-gradient(90deg, #ffd7e4 0%, #c8f1ff 100%);
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
 
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.5s ease, box-shadow 0.5s ease;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  .header-content:hover {
+    background-color: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .title {
+    font-size: 1.8em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    color: #333;
+  }
+
+  .title:hover {
+    color: #B39DDB; /* 使用柔和的淡紫色 */
+  }
+
+  .search-card {
+    margin-left: auto;
+    margin-right: 20px;
+  }
+
+  .stats {
+    font-size: 1.2em;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 5px 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    color: #333;
+  }
+
+  .stats .fa-database {
+    margin-right: 10px;
+    font-size: 1.5em;
+    transition: color 0.3s ease;
+    color: inherit;
+  }
+
+  .stats:hover {
+    background-color: #f0eaf8; /* 使用柔和的淡紫色 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    color: #B39DDB; /* 使用柔和的淡紫色 */
+  }
+
+  .stats:hover .fa-database {
+    color: #B39DDB; /* 使用柔和的淡紫色 */
+  }
+
+  .header-content .actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .header-content .actions i {
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+    color: #333;
+  }
+
+  .header-content .actions i:hover {
+    color: #B39DDB; /* 使用柔和的淡紫色 */
+    transform: scale(1.2);
+  }
+
+  .header-content .actions .el-dropdown-link i {
+    color: #333;
+  }
+
+  .header-content .actions .el-dropdown-link i:hover {
+    color: #B39DDB; /* 使用柔和的淡紫色 */
+  }
+
+  .header-content .actions .disabled {
+    color: #bbb;
+    pointer-events: none;
+  }
+
+  .header-content .actions .enabled {
+    color: #B39DDB; /* 使用柔和的淡紫色 */
+  }
+
+  .search-card .el-input__inner {
+    border-radius: 20px;
+    width: 300px;
+    height: 40px;
+    font-size: 1.2em;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s;
+  }
+
+  .search-card .el-input__inner:focus {
+    width: 400px;
+  }
+
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    min-height: calc(100vh - 80px);
+  }
+
+  .content {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 20px;
+    padding: 10px;
+    flex-grow: 1;
+  }
+
+  .el-card {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .el-card:hover {
+    transform: scale(1.05);
+  }
+
+  .el-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+  }
+
+  .el-image:hover {
+    opacity: 0.8;
+  }
+
+  .file-info {
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .el-card:hover .image-overlay {
+    opacity: 1;
+  }
+
+  .overlay-buttons {
+    display: flex;
+    gap: 10px;
+    pointer-events: auto;
+  }
+
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .el-checkbox {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    transform: scale(1.5);
+    z-index: 10;
+  }
+
+  /* 媒体查询以适应移动设备 */
+  @media (max-width: 768px) {
     .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 20px;
-      background-color: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.5s ease, box-shadow 0.5s ease;
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
-    }
-
-    .header-content:hover {
-      background-color: rgba(255, 255, 255, 0.85);
-      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .title {
-      font-size: 1.8em;
-      font-weight: bold;
-      cursor: pointer;
-      transition: color 0.3s ease;
-      color: #333;
-    }
-
-    .title:hover {
-      color: #B39DDB; /* 使用柔和的淡紫色 */
+      flex-direction: column;
+      align-items: flex-start;
     }
 
     .search-card {
-      margin-left: auto;
-      margin-right: 20px;
+      width: 100%;
+      margin: 10px 0;
     }
 
     .stats {
-      font-size: 1.2em;
-      margin-right: 20px;
-      display: flex;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.9);
-      padding: 5px 10px;
-      border-radius: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-      color: #333;
-    }
-
-    .stats .fa-database {
-      margin-right: 10px;
-      font-size: 1.5em;
-      transition: color 0.3s ease;
-      color: inherit;
-    }
-
-    .stats:hover {
-      background-color: #f0eaf8; /* 使用柔和的淡紫色 */
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-      color: #B39DDB; /* 使用柔和的淡紫色 */
-    }
-
-    .stats:hover .fa-database {
-      color: #B39DDB; /* 使用柔和的淡紫色 */
-    }
-
-    .header-content .actions {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .header-content .actions i {
-      font-size: 1.5em;
-      cursor: pointer;
-      transition: color 0.3s, transform 0.3s;
-      color: #333;
-    }
-
-    .header-content .actions i:hover {
-      color: #B39DDB; /* 使用柔和的淡紫色 */
-      transform: scale(1.2);
-    }
-
-    .header-content .actions .el-dropdown-link i {
-      color: #333;
-    }
-
-    .header-content .actions .el-dropdown-link i:hover {
-      color: #B39DDB; /* 使用柔和的淡紫色 */
-    }
-
-    .header-content .actions .disabled {
-      color: #bbb;
-      pointer-events: none;
-    }
-
-    .header-content .actions .enabled {
-      color: #B39DDB; /* 使用柔和的淡紫色 */
-    }
-
-    .search-card .el-input__inner {
-      border-radius: 20px;
-      width: 300px;
-      height: 40px;
-      font-size: 1.2em;
-      border: none;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      transition: width 0.3s;
-    }
-
-    .search-card .el-input__inner:focus {
-      width: 400px;
-    }
-
-    .main-container {
-      display: flex;
-      flex-direction: column;
-      padding: 20px;
-      min-height: calc(100vh - 80px);
+      margin: 10px 0;
     }
 
     .content {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      gap: 20px;
-      padding: 10px;
-      flex-grow: 1;
-    }
-
-    .el-card {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.6);
-      border-radius: 8px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      position: relative;
-      transition: transform 0.3s ease;
-    }
-
-    .el-card:hover {
-      transform: scale(1.05);
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: auto;
+      gap: 10px;
     }
 
     .el-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      transition: opacity 0.3s ease;
+      height: 150px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .content {
+      grid-template-columns: 1fr;
     }
 
-    .el-image:hover {
-      opacity: 0.8;
+    .el-image {
+      height: 100px;
     }
+  }
+</style>
 
-    .file-info {
-      padding: 10px;
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
-      text-align: center;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      box-sizing: border-box;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .image-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.6);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-
-    .el-card:hover .image-overlay {
-      opacity: 1;
-    }
-
-    .overlay-buttons {
-      display: flex;
-      gap: 10px;
-      pointer-events: auto;
-    }
-
-    .pagination-container {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-      padding-bottom: 20px;
-    }
-
-    .el-checkbox {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      transform: scale(1.5);
-      z-index: 10;
-    }
-  </style>
 </head>
 <body>
   <div id="app">
