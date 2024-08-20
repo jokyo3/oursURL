@@ -439,23 +439,29 @@
   console.log('updatePaginatedTableData called'); // 调试日志
   const paginatedData = this.paginatedTableData;
 
+  console.log('filteredTableData:', this.filteredTableData); // 调试日志
+  console.log('paginatedTableData:', paginatedData); // 调试日志
+
   if (paginatedData.length === 0) {
     console.log('No data in paginatedTableData'); // 调试日志
     return;
   }
 
-  // 压缩图片并为每个项目添加 compressedName
-  const promises = paginatedData.map(async (item) => {
+  // 使用临时变量存储压缩后的数据
+  const updatedData = await Promise.all(paginatedData.map(async (item) => {
     console.log('Compressing image for:', item.name); // 调试日志
     item.compressedName = await this.compressImage(item.name);
     console.log('Compressed image for:', item.name); // 调试日志
-  });
+    return item;
+  }));
 
-  await Promise.all(promises);
+  // 更新 paginatedTableData
+  this.paginatedTableData = updatedData;
 
   // 触发响应式更新
   this.$forceUpdate();
 }
+
 
   },
     mounted() {
