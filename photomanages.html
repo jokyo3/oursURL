@@ -435,20 +435,27 @@
       }
     },
     async updatePaginatedTableData() {
-      console.log('updatePaginatedTableData called'); // 调试日志
-      const paginatedData = this.paginatedTableData;
+  console.log('updatePaginatedTableData called'); // 调试日志
+  const paginatedData = this.paginatedTableData;
 
-      // 压缩图片并为每个项目添加 compressedName
-      const promises = paginatedData.map(async (item) => {
-        item.compressedName = await this.compressImage(item.name);
-        console.log('Compressed image for:', item.name); // 调试日志
-      });
+  if (paginatedData.length === 0) {
+    console.log('No data in paginatedTableData'); // 调试日志
+    return;
+  }
 
-      await Promise.all(promises);
+  // 压缩图片并为每个项目添加 compressedName
+  const promises = paginatedData.map(async (item) => {
+    console.log('Compressing image for:', item.name); // 调试日志
+    item.compressedName = await this.compressImage(item.name);
+    console.log('Compressed image for:', item.name); // 调试日志
+  });
 
-      // 触发响应式更新
-      this.$forceUpdate();
-    }
+  await Promise.all(promises);
+
+  // 触发响应式更新
+  this.$forceUpdate();
+}
+
   },
       mounted() {     
           const params = new URLSearchParams(window.location.search);
