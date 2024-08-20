@@ -456,9 +456,12 @@
     return item;
   }));
 
-  // 更新 paginatedTableData
-  this.paginatedTableData = updatedData;
-    console.log('Updated paginatedTableData:', this.paginatedTableData); // 调试日志
+  // 检查 updatedData 的结构
+  console.log('Updated data:', updatedData); // 调试日志
+
+  // 更新 paginatedTableData 使用 Vue.set 确保响应式更新
+  this.$set(this, 'paginatedTableData', updatedData);
+  console.log('Updated paginatedTableData:', this.paginatedTableData); // 调试日志
 
   // 触发响应式更新
   //this.$forceUpdate();
