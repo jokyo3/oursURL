@@ -320,7 +320,10 @@
             this.selectedFiles = newData.filter(file => file.selected);
           },
           deep: true
-        }
+        },
+        currentPage() {
+          this.handlePageChange();
+          }
       },
       methods: {
         refreshDashboard() {
@@ -413,8 +416,7 @@
         },
         updateStats() {
           this.Number = this.tableData.length;
-        }
-      },
+         },
      async compressImage(url) {
       try {
         const response = await fetch(`https://nagose-compressimg.hf.space/resize?q=${encodeURIComponent(url)}`);
@@ -465,7 +467,7 @@
             this.updateStats();
           })
           .catch(() => this.$message.error('同步数据时出错，请检查网络连接'));
-
+        this.handlePageChange();
           }
     });
 
