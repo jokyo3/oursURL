@@ -8,6 +8,30 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-ui@2.15.3/lib/theme-chalk/index.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
   <script src="https://js.sentry-cdn.com/219f636ac7bde5edab2c3e16885cb535.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/browser-image-compression/2.0.2/browser-image-compression.min.js"></script>
+  <script src="album-management.js"></script>
+  <script>
+  // 定义全局变量
+  const params = new URLSearchParams(window.location.search);
+  const username = params.get('username');
+  const dirName = params.get('directory');
+  window.username = username;
+  window.dirName = dirName;
+  window.photoUrls = []; // 定义全局变量 photoUrls
+
+  // 获取 photoUrls 数据
+  fetch(`./db/getdbab`, {
+    method: 'POST',
+    body: JSON.stringify({ username, dirName }),
+    headers: { 'Content-Type': 'application/json' }
+  })
+  .then(response => response.json())
+  .then(result => {
+    window.photoUrls = result; // 将结果存储在全局变量 photoUrls 中
+  })
+  .catch(() => console.error('同步数据时出错，请检查网络连接'));
+</script>
+
   <style>
   body {
     background: linear-gradient(90deg, #ffd7e4 0%, #c8f1ff 100%);
@@ -264,6 +288,12 @@
       height: 100px;
     }
   }
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+    
 </style>
 
 </head>
@@ -283,7 +313,10 @@
             <el-tooltip content="批量复制" placement="bottom">
               <i class="fas fa-link" :class="{ disabled: selectedFiles.length === 0 }" @click="handleBatchCopy"></i>
             </el-tooltip>
-           <el-tooltip content="退出登录" placement="bottom">
+            <el-tooltip content="备份相册" placement="bottom">
+              <i class="fas fa-cloud-download-alt" id="backupAlbum"></i>
+            </el-tooltip>
+            <el-tooltip content="退出登录" placement="bottom">
               <i class="fas fa-home" @click="handleLogout"></i>
             </el-tooltip>
           </div>
@@ -319,6 +352,11 @@
             :current-page.sync="currentPage">
           </el-pagination>
         </div>
+        <!-- 添加文本输入框和提交按钮 -->
+        <div class="input-container">
+          <textarea id="photoUrl" placeholder="输入图片URL地址，每行一个；无输入请选择图片上传：" cols="60" rows="5"></textarea>
+          <button id="submitPhoto">批量添加图片</button>
+        </div>
       </el-main>
     </el-container>
   </div>
@@ -340,7 +378,10 @@
         pageSize: 15,
         selectedFiles: [],
         isUploading: false,
-        dashboardTitle: '' 
+        dashboardTitle: '' ,
+        username: window.username, // 使用全局变量
+        dirName: window.dirName, // 使用全局变量
+        photoUrls: [] // 新增的数据属性
       },
       computed: {
         filteredTableData() {
@@ -356,6 +397,10 @@
         },
         currentPage() {
           this.handlePageChange();
+          },
+         search() {
+          this.updatePaginatedTableData(); // 当搜索关键字变化时，更新分页数据
+          this.currentPage = 1; // 重置当前页为第一页
           }
       },
       methods: {
@@ -372,12 +417,9 @@
           }).catch(() => this.$message.info('已取消删除'));
         },
         deletePhoto(photoUrl) {
-            const params = new URLSearchParams(window.location.search);
-            const username = params.get('username');
-            const dirName = params.get('directory');
             fetch('./db/deledbpho', {
                 method: 'POST',
-                body: JSON.stringify({ username, dirName, photoUrl }),
+                body: JSON.stringify({ username: this.username, dirName: this.dirName, photoUrl }),
                 headers: { 'Content-Type': 'application/json' }
             })
             .then(response => {
@@ -468,27 +510,38 @@
 
 
   },
-    mounted() {
-  const params = new URLSearchParams(window.location.search);
-  const username = params.get('username');
-  const dirName = params.get('directory');
-  this.dashboardTitle = dirName + ' 相册';
-  fetch(`./db/getdbab`, {
-    method: 'POST',
-    body: JSON.stringify({ username, dirName }),
-    headers: { 'Content-Type': 'application/json' }
-  })
-  .then(response => response.json())
-  .then(result => {
-    this.tableData = result.map(file => ({ name: file, selected: false }));
-    console.log('Updated tableData:', this.tableData); // 调试日志
-    this.updateStats();
-    this.handlePageChange(this.currentPage); // 确保在数据更新后调用
-  })
-  .catch(() => this.$message.error('同步数据时出错，请检查网络连接'));
-}
+ mounted() {
+    this.dashboardTitle = this.dirName + ' 相册';
+      fetch(`./db/getdbab`, {
+        method: 'POST',
+        body: JSON.stringify({ username: this.username, dirName: this.dirName }),
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(response => response.json())
+      .then(result => {
+        this.tableData = result.map(file => ({ name: file, selected: false }));
+        this.photoUrls = result; // 将结果存储在 photoUrls 中
+        console.log('Updated tableData:', this.tableData); // 调试日志
+        this.updateStats();
+        this.handlePageChange(this.currentPage); // 确保在数据更新后调用
+      })
+      .catch(() => this.$message.error('同步数据时出错，请检查网络连接'));
+    },
 
-    });
+  });
+
+document.getElementById('backupAlbum').onclick = function() {
+  const photoUrls = window.photoUrls; 
+  const photoUrlsString = photoUrls.join('\n').replace(/(^\s*\n)|(\n\s*$)/g, '');
+  const blob = new Blob([photoUrlsString], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${dirName}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+};
+
 
   </script>
 </body>
