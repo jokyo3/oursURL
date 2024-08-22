@@ -160,13 +160,13 @@
     display: flex;
     flex-direction: column;
     padding: 20px;
-    min-height: calc(100vh - 80px);
+    min-height: calc(60vh - 80px);
   }
 
   .content {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
     gap: 20px;
     padding: 10px;
     flex-grow: 1;
@@ -188,7 +188,7 @@
 
   .el-image {
     width: 100%;
-    height: 200px;
+    height: 120px;
     object-fit: cover;
     transition: opacity 0.3s ease;
   }
@@ -375,7 +375,7 @@
         paginatedTableData: [], // 新增的数据属性
         search: '',
         currentPage: 1,
-        pageSize: 15,
+        pageSize: 10,
         selectedFiles: [],
         isUploading: false,
         dashboardTitle: '' ,
@@ -395,13 +395,17 @@
           },
           deep: true
         },
-        currentPage() {
-          this.handlePageChange();
+      filteredTableData(newData) {
+          const totalPages = Math.ceil(newData.length / this.pageSize);
+          this.currentPage = totalPages;
+        },
+      currentPage(newData) {
+          this.handlePageChange(newData);
           },
-         search() {
-          this.updatePaginatedTableData(); // 当搜索关键字变化时，更新分页数据
-          this.currentPage = 1; // 重置当前页为第一页
-          }
+    //  search() {
+    //      this.updatePaginatedTableData(); // 当搜索关键字变化时，更新分页数据
+    //      this.currentPage = 1; // 重置当前页为第一页
+     //     }
       },
       methods: {
         refreshDashboard() {
