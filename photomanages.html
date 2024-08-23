@@ -118,6 +118,8 @@
     cursor: pointer;
     transition: color 0.3s, transform 0.3s;
     color: #333;
+    //padding: 10px; /* 增加点击区域 */
+    z-index: 1000; /* 确保图标在最上层 */
   }
 
   .header-content .actions i:hover {
@@ -253,41 +255,44 @@
   }
 
   /* 媒体查询以适应移动设备 */
-  @media (max-width: 768px) {
-    .header-content {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .search-card {
-      width: 100%;
-      margin: 10px 0;
-    }
-
-    .stats {
-      margin: 10px 0;
-    }
-
-    .content {
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: auto;
-      gap: 10px;
-    }
-
-    .el-image {
-      height: 150px;
-    }
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  @media (max-width: 480px) {
-    .content {
-      grid-template-columns: 1fr;
-    }
-
-    .el-image {
-      height: 100px;
-    }
+  .search-card {
+    width: 100%;
+    margin: 10px 0;
   }
+
+  .stats {
+    margin: 10px 0;
+  }
+
+  .content {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    gap: 10px;
+    margin-top: 120px; /* 添加 margin-top 确保栅格不会被顶栏遮挡 */
+  }
+
+  .el-image {
+    height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    grid-template-columns: 1fr;
+    margin-top: 120px; /* 添加 margin-top 确保栅格不会被顶栏遮挡 */
+  }
+
+  .el-image {
+    height: 100px;
+  }
+}
+
     @keyframes blink {
       0% { opacity: 1; }
       50% { opacity: 0.5; }
@@ -360,6 +365,7 @@
       </el-main>
     </el-container>
   </div>
+
 
   <!-- Import Vue before Element -->
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
