@@ -52,6 +52,7 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file) {
     }
 
     // 压缩图片并上传
+    //const uphostUrl = 'https://testupimg.wook.eu.org';
     const uphostUrl = '.';
     return handleCompressFile(file).then(compressedFile => {
         formData.append("file", compressedFile);
@@ -66,8 +67,12 @@ function uploadImageAndGetFullUrl(uploadEndpoint, hostUrl, file) {
 }
 
 // 定义host URL和上传端点
-const hostUrl = 'https://' + window.location.hostname;
-const uploadEndpoint = '/upload';
+//const hostUrl = 'https://imghost.wook.eu.org';
+//const hostUrl = 'https://' + window.location.hostname;
+//const uploadEndpoint = '/upload';
+//由于telegraph已关闭，使用微信开发平台
+const hostUrl = ''
+const uploadEndpoint = '/uploadtx';
 
 // 在文档加载完成后添加事件监听器
 document.addEventListener('DOMContentLoaded', function() {
@@ -91,6 +96,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+        async function AsubmitPhoto() {
+            const photoUrls = document.getElementById('photoUrl').value.trim().split('\n');
+            const validPhotoUrls = photoUrls.filter(url => url.trim() !== '');
+            const photoUrlsString = validPhotoUrls.join('\n');
+            const response = await fetch('./db/addbpho', {
+                method: 'POST',
+                body: JSON.stringify({ username, dirName, photoUrlsString }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error('Failed to submit photo');
+            }
+        };
+  
     // 处理文件选择
     realFileInput.addEventListener('change', function() {
         const uploadPromises = Array.from(realFileInput.files).map(file => {
