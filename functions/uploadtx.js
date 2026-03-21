@@ -2,7 +2,7 @@
 export async function onRequest(context) {
     const { request } = context;
     //const uploadUrl = "https://openai.weixin.qq.com/weixinh5/webapp/h774yvzC2xlB4bIgGfX2stc4kvC85J/cos/upload";
-    const uploadUrl = "https://chatyou-filebed.hf.space/ourl";
+    const uploadUrl = "https://chatyou-filebed.hf.space";
     
     const corsHeaders = {
         'Access-Control-Allow-Origin': '*',
@@ -31,7 +31,10 @@ export async function onRequest(context) {
     fileData = formData.get("file");
     // 创建新的 FormData 对象并添加文件
     const newFormData = new FormData();
-    newFormData.append("media", fileData, fileData.name);
+    const dir = "ouslpic/"; // 可选目录
+    //newFormData.append("media", fileData, fileData.name);
+    newFormData.append("file", fileData, fileData.name);
+    newFormData.append("dir", dir);
     // 转发请求
      const response = await fetch(uploadUrl, {
             method: 'POST',
