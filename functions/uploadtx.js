@@ -31,7 +31,7 @@ export async function onRequest(context) {
     fileData = formData.get("file");
     // 创建新的 FormData 对象并添加文件
     const newFormData = new FormData();
-    const dir = "ouslpic/"; // 可选目录
+    const dir = "ourl_pic/"; // 可选目录
     //newFormData.append("media", fileData, fileData.name);
     newFormData.append("file", fileData, fileData.name);
     newFormData.append("dir", dir);
