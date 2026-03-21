@@ -1,7 +1,8 @@
 // functions/uploadtx.js 微信开放平台
 export async function onRequest(context) {
     const { request } = context;
-    const uploadUrl = "https://openai.weixin.qq.com/weixinh5/webapp/h774yvzC2xlB4bIgGfX2stc4kvC85J/cos/upload";
+    //const uploadUrl = "https://openai.weixin.qq.com/weixinh5/webapp/h774yvzC2xlB4bIgGfX2stc4kvC85J/cos/upload";
+    const uploadUrl = "https://chatyou-filebed.hf.space/ourl";
     
     const corsHeaders = {
         'Access-Control-Allow-Origin': '*',
@@ -39,7 +40,8 @@ export async function onRequest(context) {
         });
 
         const jsonResponse = await response.json();
-        const resurl = jsonResponse.url;
+        //const resurl = jsonResponse.url;
+        const resurl = jsonResponse.filename;
       // 返回响应
       if(resurl){
         const responseData = [{ src: resurl }]; // 修改为 JSON 格式
