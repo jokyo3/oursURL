@@ -2,7 +2,7 @@
 export async function onRequest(context) {
     const { request } = context;
     //const uploadUrl = "https://openai.weixin.qq.com/weixinh5/webapp/h774yvzC2xlB4bIgGfX2stc4kvC85J/cos/upload";
-    const uploadUrl = "https://chatyou-filebed.hf.space";
+    const uploadUrl = "https://chatyou-filebed.hf.space/upload";
     
     const corsHeaders = {
         'Access-Control-Allow-Origin': '*',
